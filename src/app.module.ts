@@ -1,7 +1,12 @@
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 /* import { GraphQLModule } from "@nestjs/graphql"; */
+
 import { IdeaModule } from "./idea/idea.module";
+import { HttpErrorFilter } from "./shared/http-error.filter";
+import { LoggingInterceptor } from "./shared/logging.interceptor";
+import { ValidationPipe } from "./shared/validation.pipe";
 
 @Module({
   imports: [
@@ -17,10 +22,24 @@ import { IdeaModule } from "./idea/idea.module";
       logging: true,
     }),
     /* GraphQLModule.forRoot({
-      playground: process.env.NODE_ENV === "production",
+      playground: process.env.NODE_ENV !== "production",
       autoSchemaFile: "schema.gql",
     }), */
     IdeaModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpErrorFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
   ],
 })
 export class AppModule {}

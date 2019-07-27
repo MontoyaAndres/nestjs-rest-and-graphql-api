@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 
 import { IdeaService } from "./idea.service";
-import { IdeaDIO } from "./dto/idea.dto";
+import { IdeaDTO } from "./dto/idea.dto";
 
 @Controller("idea")
 export class IdeaController {
@@ -21,7 +21,7 @@ export class IdeaController {
   }
 
   @Post()
-  public createIdea(@Body() data: IdeaDIO) {
+  public createIdea(@Body() data: IdeaDTO) {
     return this.ideaService.create(data);
   }
 
@@ -31,7 +31,7 @@ export class IdeaController {
   }
 
   @Put(":id")
-  public updateIdea(@Param("id") id: string, @Body() data: Partial<IdeaDIO>) {
+  public updateIdea(@Param("id") id: string, @Body() data: Partial<IdeaDTO>) {
     return this.ideaService.update(id, data);
   }
 
