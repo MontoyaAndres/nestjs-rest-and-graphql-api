@@ -9,7 +9,7 @@ import { IdeaDTO } from "./dto/idea.dto";
 export class IdeaService {
   constructor(
     @InjectRepository(IdeaEntity)
-    private ideaRepository: Repository<IdeaEntity>,
+    private readonly ideaRepository: Repository<IdeaEntity>,
   ) {}
 
   public async showAll() {

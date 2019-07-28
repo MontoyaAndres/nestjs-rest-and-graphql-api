@@ -2,11 +2,11 @@ import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 /* import { GraphQLModule } from "@nestjs/graphql"; */
-
 import { IdeaModule } from "./idea/idea.module";
 import { HttpErrorFilter } from "./shared/http-error.filter";
 import { LoggingInterceptor } from "./shared/logging.interceptor";
 import { ValidationPipe } from "./shared/validation.pipe";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -26,6 +26,7 @@ import { ValidationPipe } from "./shared/validation.pipe";
       autoSchemaFile: "schema.gql",
     }), */
     IdeaModule,
+    UserModule,
   ],
   providers: [
     {
