@@ -7,10 +7,12 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
 
 import { UserEntity } from "../user/user.entity";
+import { CommentEntity } from "../comment/comment.entity";
 
 @ObjectType()
 @Entity("idea")
@@ -46,4 +48,7 @@ export class IdeaEntity {
   @ManyToMany(() => UserEntity, { cascade: true })
   @JoinTable()
   downvotes: UserEntity[];
+
+  @OneToMany(() => CommentEntity, comment => comment.idea, { cascade: true })
+  comments: CommentEntity[];
 }
