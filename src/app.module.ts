@@ -1,7 +1,7 @@
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-/* import { GraphQLModule } from "@nestjs/graphql"; */
+import { GraphQLModule } from "@nestjs/graphql";
 
 import { IdeaModule } from "./idea/idea.module";
 import { HttpErrorFilter } from "./shared/http-error.filter";
@@ -23,10 +23,10 @@ import { CommentModule } from "./comment/comment.module";
       synchronize: true,
       logging: true,
     }),
-    /* GraphQLModule.forRoot({
+    GraphQLModule.forRoot({
       playground: process.env.NODE_ENV !== "production",
       autoSchemaFile: "schema.gql",
-    }), */
+    }),
     IdeaModule,
     UserModule,
     CommentModule,
