@@ -14,10 +14,12 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async showAll() {
+  async showAll(page: number = 1) {
     const users = await this.userRepository.find({
       select: ["id", "username", "created"],
       relations: ["ideas", "bookmarks"],
+      take: 25,
+      skip: 25 * (page - 1),
     });
 
     return users;

@@ -6,6 +6,7 @@ import {
   Post,
   Body,
   Delete,
+  Query,
 } from "@nestjs/common";
 
 import { CommentService } from "./comment.service";
@@ -18,13 +19,19 @@ export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
   @Get("idea/:id")
-  public showCommentsByIdea(@Param("id") idea: string) {
-    return this.commentService.showByIdea(idea);
+  public showCommentsByIdea(
+    @Param("id") idea: string,
+    @Query("page") page: number,
+  ) {
+    return this.commentService.showByIdea(idea, page);
   }
 
   @Get("user/:id")
-  public showCommentsByUser(@Param("id") user: string) {
-    return this.commentService.showByUser(user);
+  public showCommentsByUser(
+    @Param("id") user: string,
+    @Query("page") page: number,
+  ) {
+    return this.commentService.showByUser(user, page);
   }
 
   @Post("idea/:id")

@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, UseGuards } from "@nestjs/common";
+import { Controller, Post, Get, Body, UseGuards, Query } from "@nestjs/common";
 
 import { UserService } from "./user.service";
 import { UserDTO } from "./dto/user.dto";
@@ -11,10 +11,10 @@ export class UserController {
 
   @Get("users")
   @UseGuards(new AuthGuard())
-  showAllusers(@User("id") user) {
+  showAllusers(@User("id") user, @Query("page") page: number) {
     // tslint:disable-next-line: no-console
     console.log(user);
-    return this.userService.showAll();
+    return this.userService.showAll(page);
   }
 
   @Post("login")
