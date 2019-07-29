@@ -17,7 +17,7 @@ export class UserService {
   async showAll() {
     const users = await this.userRepository.find({
       select: ["id", "username", "created"],
-      relations: ["ideas"],
+      relations: ["ideas", "bookmarks"],
     });
 
     return users;

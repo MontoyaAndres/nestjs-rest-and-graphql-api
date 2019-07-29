@@ -46,7 +46,31 @@ export class IdeaController {
 
   @Delete(":id")
   @UseGuards(new AuthGuard())
-  public deleteIdea(@Param("id") id: string, @User("id") user) {
+  public deleteIdea(@Param("id") id: string, @User("id") user: string) {
     return this.ideaService.destroy(id, user);
+  }
+
+  @Post(":id/upvote")
+  @UseGuards(new AuthGuard())
+  public upvoteIdea(@Param("id") id: string, @User("id") user: string) {
+    return this.ideaService.upvote(id, user);
+  }
+
+  @Post(":id/downvote")
+  @UseGuards(new AuthGuard())
+  public downvoteIdea(@Param("id") id: string, @User("id") user: string) {
+    return this.ideaService.downvote(id, user);
+  }
+
+  @Post(":id/bookmark")
+  @UseGuards(new AuthGuard())
+  public bookmarkIdea(@Param("id") id: string, @User("id") user: string) {
+    return this.ideaService.bookmark(id, user);
+  }
+
+  @Delete(":id/bookmark")
+  @UseGuards(new AuthGuard())
+  public unbookmarkIdea(@Param("id") id: string, @User("id") user: string) {
+    return this.ideaService.unbookmark(id, user);
   }
 }

@@ -5,6 +5,8 @@ import {
   UpdateDateColumn,
   Column,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
 
@@ -36,4 +38,12 @@ export class IdeaEntity {
   @Field(() => UserEntity)
   @ManyToOne(() => UserEntity, author => author.ideas)
   author: UserEntity;
+
+  @ManyToMany(() => UserEntity, { cascade: true })
+  @JoinTable()
+  upvotes: UserEntity[];
+
+  @ManyToMany(() => UserEntity, { cascade: true })
+  @JoinTable()
+  downvotes: UserEntity[];
 }

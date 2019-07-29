@@ -6,6 +6,8 @@ import {
   BeforeInsert,
   OneToMany,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
 import * as argon2 from "argon2";
@@ -40,6 +42,10 @@ export class UserEntity {
   @Field(() => [IdeaEntity])
   @OneToMany(() => IdeaEntity, idea => idea.author)
   ideas: IdeaEntity[];
+
+  @ManyToMany(() => IdeaEntity, { cascade: true })
+  @JoinTable()
+  bookmarks: IdeaEntity[];
 
   @BeforeInsert()
   async hashPassword() {
