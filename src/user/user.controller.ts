@@ -12,6 +12,7 @@ export class UserController {
   @Get("users")
   @UseGuards(new AuthGuard())
   showAllusers(@User("id") user) {
+    // tslint:disable-next-line: no-console
     console.log(user);
     return this.userService.showAll();
   }

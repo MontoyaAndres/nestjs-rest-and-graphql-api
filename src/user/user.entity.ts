@@ -4,9 +4,13 @@ import {
   CreateDateColumn,
   Column,
   BeforeInsert,
+  OneToMany,
+  UpdateDateColumn,
 } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
 import * as argon2 from "argon2";
+
+import { IdeaEntity } from "../idea/idea.entity";
 
 @ObjectType()
 @Entity("user")
@@ -19,6 +23,10 @@ export class UserEntity {
   @CreateDateColumn()
   created: Date;
 
+  @Field(() => Date)
+  @UpdateDateColumn()
+  updated: Date;
+
   @Field()
   @Column({
     type: "text",
@@ -28,6 +36,10 @@ export class UserEntity {
 
   @Column("text")
   password: string;
+
+  @Field(() => [IdeaEntity])
+  @OneToMany(() => IdeaEntity, idea => idea.author)
+  ideas: IdeaEntity[];
 
   @BeforeInsert()
   async hashPassword() {

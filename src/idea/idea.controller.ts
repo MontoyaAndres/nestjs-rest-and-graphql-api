@@ -6,10 +6,13 @@ import {
   Delete,
   Body,
   Param,
+  UseGuards,
 } from "@nestjs/common";
 
 import { IdeaService } from "./idea.service";
 import { IdeaDTO } from "./dto/idea.dto";
+import { AuthGuard } from "../shared/auth.guard";
+import { User } from "../user/user.decorator";
 
 @Controller("idea")
 export class IdeaController {
@@ -21,8 +24,9 @@ export class IdeaController {
   }
 
   @Post()
-  public createIdea(@Body() data: IdeaDTO) {
-    return this.ideaService.create(data);
+  @UseGuards(new AuthGuard())
+  public createIdea(@Body() data: IdeaDTO, @User("id") user) {
+    return this.ideaService.create(data, user);
   }
 
   @Get(":id")
@@ -31,12 +35,18 @@ export class IdeaController {
   }
 
   @Put(":id")
-  public updateIdea(@Param("id") id: string, @Body() data: Partial<IdeaDTO>) {
-    return this.ideaService.update(id, data);
+  @UseGuards(new AuthGuard())
+  public updateIdea(
+    @Param("id") id: string,
+    @Body() data: Partial<IdeaDTO>,
+    @User("id") user,
+  ) {
+    return this.ideaService.update(id, data, user);
   }
 
   @Delete(":id")
-  public deleteIdea(@Param("id") id: string) {
-    return this.ideaService.destroy(id);
+  @UseGuards(new AuthGuard())
+  public deleteIdea(@Param("id") id: string, @User("id") user) {
+    return this.ideaService.destroy(id, user);
   }
 }
