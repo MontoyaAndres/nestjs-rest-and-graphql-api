@@ -75,7 +75,10 @@ export class UserService {
     });
 
     if (user) {
-      throw new Error("the user already exists");
+      throw new HttpException(
+        "the user already exists",
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     user = await this.userRepository.create(data);
