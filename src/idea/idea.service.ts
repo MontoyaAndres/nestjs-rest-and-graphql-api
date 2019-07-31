@@ -30,11 +30,11 @@ export class IdeaService {
     };
 
     if (responseObject.upvotes) {
-      responseObject.upvotes = idea.upvotes.length;
+      responseObject.upvotesAmount = idea.upvotes.length;
     }
 
     if (responseObject.downvotes) {
-      responseObject.downvotes = idea.downvotes.length;
+      responseObject.downvotesAmount = idea.downvotes.length;
     }
 
     return responseObject;

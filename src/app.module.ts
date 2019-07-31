@@ -26,6 +26,7 @@ import { CommentModule } from "./comment/comment.module";
     GraphQLModule.forRoot({
       playground: process.env.NODE_ENV !== "production",
       autoSchemaFile: "schema.gql",
+      context: ({ req }) => ({ headers: req.headers }),
     }),
     IdeaModule,
     UserModule,

@@ -25,6 +25,15 @@ export class UserService {
     return users;
   }
 
+  async read(username: string) {
+    const user = await this.userRepository.findOne({
+      where: { username },
+      relations: ["ideas", "bookmarks"],
+    });
+
+    return user;
+  }
+
   async login({ username, password }: UserDTO) {
     const user = await this.userRepository.findOne({ where: { username } });
 
@@ -66,10 +75,7 @@ export class UserService {
     });
 
     if (user) {
-      throw new HttpException(
-        { path: "user", message: "the user already exists" },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new Error("the user already exists");
     }
 
     user = await this.userRepository.create(data);
