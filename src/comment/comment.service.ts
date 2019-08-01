@@ -100,6 +100,10 @@ export class CommentService {
       relations: ["author", "idea"],
     });
 
+    if (!comment) {
+      throw new HttpException("Comment not found", HttpStatus.BAD_REQUEST);
+    }
+
     if (comment.author.id !== userId) {
       throw new HttpException(
         "You do not own this comment",
@@ -107,7 +111,7 @@ export class CommentService {
       );
     }
 
-    await this.commentRepository.remove(comment);
+    await this.commentRepository.delete(comment);
 
     return this.toResponseObject(comment);
   }
