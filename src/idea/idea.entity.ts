@@ -48,7 +48,6 @@ export class IdeaEntity {
   @Field(() => Int)
   upvotesAmount: number;
 
-  @Field(() => Int)
   @ManyToMany(() => UserEntity, { cascade: true })
   @JoinTable()
   downvotes: UserEntity[];

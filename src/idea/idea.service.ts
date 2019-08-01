@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 import { IdeaEntity } from "./idea.entity";
-import { IdeaDTO } from "./dto/idea.dto";
+import { IdeaDTO, IdeaUpdateDTO } from "./dto/idea.dto";
 import { UserEntity } from "../user/user.entity";
 import { Votes } from "../shared/votes.enum";
 
@@ -101,7 +101,11 @@ export class IdeaService {
     return this.toResponseObject(idea);
   }
 
-  public async update(id: string, data: Partial<IdeaDTO>, userId: string) {
+  public async update(
+    id: string,
+    data: Partial<IdeaUpdateDTO>,
+    userId: string,
+  ) {
     let idea = await this.ideaRepository.findOne({
       where: { id },
       relations: ["author"],
@@ -113,7 +117,10 @@ export class IdeaService {
 
     this.ensureOwnership(idea, userId);
 
-    await this.ideaRepository.update({ id }, data);
+    await this.ideaRepository.update(
+      { id },
+      { idea: data.idea, description: data.description },
+    );
 
     // return the value updated
     idea = await this.ideaRepository.findOne({
@@ -182,14 +189,7 @@ export class IdeaService {
       );
     }
 
-    return {
-      user: {
-        id: user.id,
-        username: user.username,
-        created: user.created,
-        bookmarks: user.bookmarks,
-      },
-    };
+    return user;
   }
 
   public async unbookmark(id: string, userId: string) {
@@ -212,13 +212,6 @@ export class IdeaService {
       );
     }
 
-    return {
-      user: {
-        id: user.id,
-        username: user.username,
-        created: user.created,
-        bookmarks: user.bookmarks,
-      },
-    };
+    return user;
   }
 }
