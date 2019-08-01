@@ -6,6 +6,7 @@ import { IdeaEntity } from "./idea.entity";
 import { IdeaDTO, IdeaUpdateDTO } from "./dto/idea.dto";
 import { UserEntity } from "../user/user.entity";
 import { Votes } from "../shared/votes.enum";
+import { AppGateway } from "../app.gateway";
 
 @Injectable()
 export class IdeaService {
@@ -14,6 +15,7 @@ export class IdeaService {
     private readonly ideaRepository: Repository<IdeaEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly geteway: AppGateway,
   ) {}
 
   private toResponseObject(idea: IdeaEntity) {
@@ -84,6 +86,8 @@ export class IdeaService {
     const idea = await this.ideaRepository.create({ ...data, author: user });
 
     await this.ideaRepository.save(idea);
+
+    this.geteway.wss.emit("newIdea", idea);
 
     return this.toResponseObject(idea);
   }
